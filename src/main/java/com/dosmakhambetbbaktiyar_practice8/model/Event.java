@@ -1,12 +1,16 @@
 package com.dosmakhambetbbaktiyar_practice8.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "events")
 public class Event {
@@ -20,14 +24,4 @@ public class Event {
     private File file;
     @ManyToOne
     private User user;
-
-    public Event() {
-    }
-
-    public Event(Long id, Status status, File file, User user) {
-        this.id = id;
-        this.status = status;
-        this.file = file;
-        this.user = user;
-    }
 }

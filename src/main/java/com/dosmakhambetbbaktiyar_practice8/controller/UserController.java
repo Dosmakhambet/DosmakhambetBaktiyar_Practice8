@@ -1,5 +1,6 @@
 package com.dosmakhambetbbaktiyar_practice8.controller;
 
+import com.dosmakhambetbbaktiyar_practice8.dto.UserDto;
 import com.dosmakhambetbbaktiyar_practice8.model.User;
 import com.dosmakhambetbbaktiyar_practice8.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,37 +25,37 @@ public class UserController {
 
     @GetMapping("/{id}")
     @PreAuthorize("hasAnyAuthority('users:write,users:readall')")
-    public ResponseEntity<User> findById(@PathVariable("id") Long id){
+    public ResponseEntity<UserDto> findById(@PathVariable("id") Long id){
 
-        return new ResponseEntity<>(service.findById(id), HttpStatus.OK);
+        return new ResponseEntity<>(UserDto.asDTO(service.findById(id)), HttpStatus.OK);
     }
 
     @GetMapping("/")
     @PreAuthorize("hasAnyAuthority('users:write,users:readall')")
-    public ResponseEntity<List<User>> findAll(){
+    public ResponseEntity<List<UserDto>> findAll(){
 
-        return new ResponseEntity<>(service.findAll(), HttpStatus.OK);
+        return new ResponseEntity<>(service.findAll().stream().map(UserDto::asDTO).toList(), HttpStatus.OK);
     }
 
     @PostMapping("/")
     @PreAuthorize("hasAnyAuthority('users:write')")
-    public ResponseEntity<User> save(@RequestBody User user){
+    public ResponseEntity<UserDto> save(@RequestBody User user){
 
-        return new ResponseEntity<>(service.save(user), HttpStatus.CREATED);
+        return new ResponseEntity<>(UserDto.asDTO(service.save(user)), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAnyAuthority('users:write')")
-    public ResponseEntity<User> deleteById(@PathVariable("id") Long id){
+    public ResponseEntity<UserDto> deleteById(@PathVariable("id") Long id){
         service.deleteById(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @GetMapping("/my")
     @PreAuthorize("hasAnyAuthority('users:read')")
-    public ResponseEntity<User> findByUserName(){
+    public ResponseEntity<UserDto> findByUserName(){
 
-        return new ResponseEntity<>(service.findByUserName(SecurityContextHolder.getContext().getAuthentication().getName()).get(), HttpStatus.OK);
+        return new ResponseEntity<>(UserDto.asDTO(service.findByUserName(SecurityContextHolder.getContext().getAuthentication().getName()).get()), HttpStatus.OK);
     }
 
 }

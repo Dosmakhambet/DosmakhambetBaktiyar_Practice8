@@ -26,26 +26,26 @@ public class FileController {
 
     @GetMapping("/{id}")
     @PreAuthorize("hasAnyAuthority('files:write')")
-    public ResponseEntity<File> findById(@PathVariable("id") Long id){
+    public ResponseEntity<FileDto> findById(@PathVariable("id") Long id){
 
-        return new ResponseEntity<>(service.findById(id), HttpStatus.OK);
+        return new ResponseEntity<>(FileDto.asDTO(service.findById(id)), HttpStatus.OK);
     }
 
     @GetMapping("/")
     @PreAuthorize("hasAnyAuthority('files:write')")
-    public ResponseEntity<List<File>> findAll(){
-        return new ResponseEntity<>(service.findAll(), HttpStatus.OK);
+    public ResponseEntity<List<FileDto>> findAll(){
+        return new ResponseEntity<>(service.findAll().stream().map(FileDto::asDTO).toList(), HttpStatus.OK);
     }
 
     @PostMapping("/")
     @PreAuthorize("hasAnyAuthority('files:write,files:read')")
-    public ResponseEntity<File> save(@RequestParam("file") MultipartFile file){
-        return new ResponseEntity<>(service.uploadFile(file), HttpStatus.CREATED);
+    public ResponseEntity<FileDto> save(@RequestParam("file") MultipartFile file){
+        return new ResponseEntity<>(FileDto.asDTO(service.uploadFile(file)), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAnyAuthority('files:write')")
-    public ResponseEntity<File> deleteById(@PathVariable("id") Long id){
+    public ResponseEntity<FileDto> deleteById(@PathVariable("id") Long id){
         service.deleteById(id);
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -53,8 +53,8 @@ public class FileController {
 
     @GetMapping("/my")
     @PreAuthorize("hasAnyAuthority('files:read')")
-    public ResponseEntity<List<File>> findByUserName(){
+    public ResponseEntity<List<FileDto>> findByUserName(){
 
-        return new ResponseEntity<>(service.findByUserName(SecurityContextHolder.getContext().getAuthentication().getName()), HttpStatus.OK);
+        return new ResponseEntity<>(service.findByUserName(SecurityContextHolder.getContext().getAuthentication().getName()).stream().map(FileDto::asDTO).toList(), HttpStatus.OK);
     }
 }

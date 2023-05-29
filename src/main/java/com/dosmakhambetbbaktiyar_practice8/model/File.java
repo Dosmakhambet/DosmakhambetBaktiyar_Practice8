@@ -1,8 +1,6 @@
 package com.dosmakhambetbbaktiyar_practice8.model;
 
-import lombok.Builder;
-import lombok.Data;
-import lombok.Setter;
+import lombok.*;
 
 import jakarta.persistence.*;
 
@@ -10,6 +8,8 @@ import jakarta.persistence.*;
 @Data
 @Builder
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "files")
 public class File {
@@ -22,12 +22,4 @@ public class File {
     @Column(columnDefinition = "varchar(255) default 'ACTIVE'")
     private Status status;
 
-    public File(){
-    }
-
-    public File(Long id, String location, Status status) {
-        this.id = id;
-        this.location = location;
-        this.status = status;
-    }
 }

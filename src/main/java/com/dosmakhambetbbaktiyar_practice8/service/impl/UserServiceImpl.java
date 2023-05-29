@@ -5,7 +5,6 @@ import com.dosmakhambetbbaktiyar_practice8.model.User;
 import com.dosmakhambetbbaktiyar_practice8.repository.UserRepository;
 import com.dosmakhambetbbaktiyar_practice8.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
